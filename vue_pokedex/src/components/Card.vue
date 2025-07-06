@@ -1,10 +1,12 @@
 <template>
     <div class="pokeCard">
-        <p>PokeCard</p>
+        <p>{{ name }}</p>
     </div>
 </template>
 
-<script>
+<script setup>
+
+defineProps(['name'])
 
 </script>
 

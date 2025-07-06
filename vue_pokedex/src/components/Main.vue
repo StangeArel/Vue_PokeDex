@@ -1,27 +1,35 @@
 <template>
     <main>
-        <Card></Card>
-        <Card></Card>
-        <Card></Card>
-        <Card></Card>
-        <Card></Card>
-        <Card></Card>
-        <Card></Card>
-        <Card></Card>
-        <Card></Card>
+        <Card v-for="pokemon in pokemons" :name="pokemon.name"></Card>
 
+        {{ pokemons }}
 
     </main>
 </template>
 
-<script>
+<script setup>
 import Card from './Card.vue';
+import { ref } from 'vue';
 
-export default {
-    components: {
-        Card: Card
-    }
-}
+const pokemons = ref([]);
+
+fetch('https://pokeapi.co/api/v2/pokemon?limit=10&offset=0')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Hier wird die Datenverarbeitung durchgeführt
+        pokemons.value = data.results;
+    })
+    .catch(error => {
+        // Hier werden Fehler behandelt
+        console.error('There has been a problem with your fetch operation:', error);
+    });
+
+
 </script>
 
 <style scoped>
